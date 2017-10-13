@@ -6,7 +6,63 @@
         xmlns:local="clr-namespace:Golden2048.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.DataContext>
+        <local:MainModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <local:CellValueConverter x:Key="CellValueConverter" />
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Grid.Row="1" Grid.RowSpan="4" Content="&lt;" Command="{Binding PullLeftCommand}" />
+            <Button Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Content="/\" Command="{Binding PullTopCommand}" />
+            <Button Grid.Column="5" Grid.Row="1" Grid.RowSpan="4" Content="&gt;" Command="{Binding PullRightCommand}" />
+            <Button Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="4" Content="\/" Command="{Binding PullBottomCommand}" />
+
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Values[0], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding Values[1], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="3" Grid.Row="1" Text="{Binding Values[2], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="4" Grid.Row="1" Text="{Binding Values[3], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Values[4], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Values[5], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="3" Grid.Row="2" Text="{Binding Values[6], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="4" Grid.Row="2" Text="{Binding Values[7], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Values[8], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="2" Grid.Row="3" Text="{Binding Values[9], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="3" Grid.Row="3" Text="{Binding Values[10], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="4" Grid.Row="3" Text="{Binding Values[11], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Values[12], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="2" Grid.Row="4" Text="{Binding Values[13], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="3" Grid.Row="4" Text="{Binding Values[14], Converter={StaticResource CellValueConverter}}" />
+            <TextBlock Grid.Column="4" Grid.Row="4" Text="{Binding Values[15], Converter={StaticResource CellValueConverter}}" />
+
+            <Rectangle Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="1" Fill="Silver" />
+            <Rectangle Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="1" Fill="Silver" />
+            <Rectangle Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="1" Fill="Silver" />
+            <Rectangle Grid.Row="1" Grid.Column="1" Grid.RowSpan="4" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1" Fill="Silver" />
+            <Rectangle Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1" Fill="Silver" />
+            <Rectangle Grid.Row="1" Grid.Column="3" Grid.RowSpan="4" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1" Fill="Silver" />
+        </Grid>
     </Grid>
 </Window>
