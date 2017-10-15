@@ -15,6 +15,9 @@ namespace Golden2048.Core
         private Cell[,] cellBoard = new Cell[sizeX, sizeY];
         private List<Cell> cellList = new List<Cell>();
         private Random rnd = new Random();
+        private DropOutStack<List<int>> undo = new DropOutStack<List<int>>(3);
+        
+        public int MoveCount { get; private set; }
 
         public Board()
         {
@@ -29,6 +32,12 @@ namespace Golden2048.Core
                     n++;
                 }
             }
+        }
+
+        public void Reset()
+        {
+            cellList.ForEach(i => i.Value = 0);
+            undo.Clear();
         }
 
         public void Initialize(params int[] values)
@@ -120,8 +129,22 @@ namespace Golden2048.Core
             return false;
         }
 
+        private void SaveUndo()
+        {
+            var values = cellList.Select(i => i.Value).ToList();
+            undo.Push(values);
+        }
+
+        public void Undo()
+        {
+            var value = undo.Pop();
+            if (value == null) return;
+            for (var n = 0; n < value.Count; n++) cellList[n].Value = value[n];
+        }
+
         public void PullLeft()
         {
+            SaveUndo();
             for (var y = 0; y < sizeY; y++)
             {
                 var values = new List<int>();
@@ -161,6 +184,7 @@ namespace Golden2048.Core
 
         public void PullRight()
         {
+            SaveUndo();
             for (var y = 0; y < sizeY; y++)
             {
                 var values = new List<int>();
@@ -190,6 +214,7 @@ namespace Golden2048.Core
 
         public void PullTop()
         {
+            SaveUndo();
             for (var x = 0; x < sizeX; x++)
             {
                 var values = new List<int>();
@@ -217,6 +242,7 @@ namespace Golden2048.Core
 
         public void PullBottom()
         {
+            SaveUndo();
             for (var x = 0; x < sizeX; x++)
             {
                 var values = new List<int>();
@@ -247,17 +273,27 @@ namespace Golden2048.Core
         public void PutValue(int x, int y, int value)
         {
             cellBoard[x, y].Value = value;
+            SaveUndo();
         }
 
         public int Length => cellList.Count;
 
         public bool PutRandomValue()
         {
+            MoveCount++;
             var cells = cellList.Where(i => i.Value == 0).ToList();
             if (cells.Count == 0) return false;
 
             var index = rnd.Next(0, cells.Count);
-            cells[index].Value = 2;
+            if (MoveCount < 20)
+            {
+                cells[index].Value = 2;
+            }
+            else
+            {
+                var dice = rnd.Next(0, 10);
+                cells[index].Value = dice == 0 ? 4 : 2;
+            }
             return true;
         }
 

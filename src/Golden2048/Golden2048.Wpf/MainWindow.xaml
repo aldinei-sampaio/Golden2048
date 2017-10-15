@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Golden2048.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="2048" Height="500" Width="500">
     <Window.DataContext>
         <local:MainModel />
     </Window.DataContext>
@@ -16,22 +16,29 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Left" Command="{Binding PullLeftCommand}" />
+        <KeyBinding Key="Up" Command="{Binding PullTopCommand}" />
+        <KeyBinding Key="Right" Command="{Binding PullRightCommand}" />
+        <KeyBinding Key="Down" Command="{Binding PullBottomCommand}" />
+        <KeyBinding Modifiers="Ctrl" Key="Z" Command="{Binding UndoCommand}" />
+    </Window.InputBindings>
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -40,22 +47,22 @@
             <Button Grid.Column="5" Grid.Row="1" Grid.RowSpan="4" Content="&gt;" Command="{Binding PullRightCommand}" />
             <Button Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="4" Content="\/" Command="{Binding PullBottomCommand}" />
 
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Values[0], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding Values[1], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="3" Grid.Row="1" Text="{Binding Values[2], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="4" Grid.Row="1" Text="{Binding Values[3], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Values[4], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Values[5], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="3" Grid.Row="2" Text="{Binding Values[6], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="4" Grid.Row="2" Text="{Binding Values[7], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Values[8], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="2" Grid.Row="3" Text="{Binding Values[9], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="3" Grid.Row="3" Text="{Binding Values[10], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="4" Grid.Row="3" Text="{Binding Values[11], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Values[12], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="2" Grid.Row="4" Text="{Binding Values[13], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="3" Grid.Row="4" Text="{Binding Values[14], Converter={StaticResource CellValueConverter}}" />
-            <TextBlock Grid.Column="4" Grid.Row="4" Text="{Binding Values[15], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="1" Grid.Row="1" Source="{Binding Values[0], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="2" Grid.Row="1" Source="{Binding Values[1], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="3" Grid.Row="1" Source="{Binding Values[2], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="4" Grid.Row="1" Source="{Binding Values[3], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="1" Grid.Row="2" Source="{Binding Values[4], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="2" Grid.Row="2" Source="{Binding Values[5], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="3" Grid.Row="2" Source="{Binding Values[6], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="4" Grid.Row="2" Source="{Binding Values[7], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="1" Grid.Row="3" Source="{Binding Values[8], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="2" Grid.Row="3" Source="{Binding Values[9], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="3" Grid.Row="3" Source="{Binding Values[10], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="4" Grid.Row="3" Source="{Binding Values[11], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="1" Grid.Row="4" Source="{Binding Values[12], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="2" Grid.Row="4" Source="{Binding Values[13], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="3" Grid.Row="4" Source="{Binding Values[14], Converter={StaticResource CellValueConverter}}" />
+            <Image Grid.Column="4" Grid.Row="4" Source="{Binding Values[15], Converter={StaticResource CellValueConverter}}" />
 
             <Rectangle Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="1" Fill="Silver" />
             <Rectangle Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="1" Fill="Silver" />
@@ -63,6 +70,38 @@
             <Rectangle Grid.Row="1" Grid.Column="1" Grid.RowSpan="4" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1" Fill="Silver" />
             <Rectangle Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1" Fill="Silver" />
             <Rectangle Grid.Row="1" Grid.Column="3" Grid.RowSpan="4" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1" Fill="Silver" />
+
+            <StackPanel Grid.Row="6" Grid.ColumnSpan="7" Orientation="Horizontal" Margin="5,0">
+                <TextBlock Text="Pontuação: " />
+                <TextBlock Text="{Binding Points}" />
+            </StackPanel>
         </Grid>
+
+        <Grid local:XamlHelper.IsVisible="{Binding IsStopped}">
+            <Grid Background="Gold" Opacity="0.6">
+            </Grid>
+            <Button Content="Iniciar" Width="150" Height="45" Command="{Binding StartCommand}" />
+        </Grid>
+
+        <Grid local:XamlHelper.IsVisible="{Binding IsGameOver}">
+            <Grid Background="Red" Opacity="0.7">
+            </Grid>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <TextBlock Text="Não há mais movimentos possíveis." Margin="0,0,0,10" Foreground="White" />
+                <Button Content="Reiniciar" Width="150" Height="45" Command="{Binding StartCommand}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid local:XamlHelper.IsVisible="{Binding IsVictory}">
+            <Grid Background="Gold" Opacity="0.8">
+            </Grid>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <TextBlock Text="Vitória!" Margin="0,0,0,10" Foreground="Blue" FontSize="20" FontWeight="Bold" />
+                <TextBlock Text="Parabéns! Você conseguiu 2048!" Margin="0,0,0,20" Foreground="BlueViolet" FontSize="14" FontWeight="Bold" />
+                <Button Content="Continuar jogando" Width="150" Height="30" Command="{Binding ContinueCommand}" Margin="0,0,0,10" />
+                <Button Content="Reiniciar" Width="150" Height="30" Command="{Binding StartCommand}" />
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Window>

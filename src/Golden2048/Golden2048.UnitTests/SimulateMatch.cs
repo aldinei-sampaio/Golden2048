@@ -109,6 +109,15 @@ namespace Golden2048.UnitTests
             Assert.IsFalse(board.CanPullTop());
             Assert.IsTrue(board.CanPullRight());
             Assert.IsFalse(board.CanPullBottom());
+
+            board.Undo();
+            board.Undo();
+            board.Compare(
+                0, 8, 0, 0,
+                1, 0, 0, 0,
+                0, 0, 0, 4,
+                0, 0, 0, 2
+            );
         }
     }
 }
