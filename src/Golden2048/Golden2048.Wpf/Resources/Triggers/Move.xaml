@@ -1,0 +1,93 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Golden2048.Wpf.Resources.Triggers"
+    >
+
+    <Style TargetType="Image">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Transition}" Value="100">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move00}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="101">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move01}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="102">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move02}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="103">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move03}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="104">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move04}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="105">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move05}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="106">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move06}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="107">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move07}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="108">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move08}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="109">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move09}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="110">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move10}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="111">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move11}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="112">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move12}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="113">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move13}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="114">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move14}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="115">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Move15}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+</ResourceDictionary>

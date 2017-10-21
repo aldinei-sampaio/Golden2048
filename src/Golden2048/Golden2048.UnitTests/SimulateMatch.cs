@@ -119,5 +119,28 @@ namespace Golden2048.UnitTests
                 0, 0, 0, 2
             );
         }
+
+        [TestMethod]
+        public void RandomValue()
+        {
+            var x = 0;
+            var y = 0;
+            var value = 0;
+
+            var board = new Board();
+            board.CellCreated += (sender, e) =>
+            {
+                x = e.Created.X;
+                y = e.Created.Y;
+                value = e.Created.Value;
+            };
+
+            for (var n = 0; n < 16; n++)
+            {
+                board.PutRandomValue();
+                Assert.IsTrue(value > 0);
+                Assert.AreEqual(value, board.GetValue(x, y));
+            }
+        }        
     }
 }

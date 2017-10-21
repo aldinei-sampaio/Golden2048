@@ -5,6 +5,56 @@ using System.Linq;
 
 namespace Golden2048.Core
 {
+    public struct CellData
+    {
+        public int X { get; }
+        public int Y { get; }
+        public int Index { get; }
+        public int Value { get; }
+        public CellData(int x, int y, int index, int value)
+        {
+            X = x;
+            Y = y;
+            Index = index;
+            Value = value;
+        }
+        internal CellData(Cell data) : this(data.X, data.Y, data.Index, data.Value)
+        {
+        }
+    }
+
+    public class CellMovedEventArgs : EventArgs
+    {
+        public CellData From { get; }
+        public CellData To { get; }
+        internal CellMovedEventArgs(CellData from, CellData to)
+        {
+            From = from;
+            To = to;
+        }
+    }
+
+    public class CellMergedEventArgs : EventArgs
+    {
+        public CellData Destroyed { get; }
+        public CellData Merged { get; }
+        public CellMergedEventArgs(CellData destroyed, CellData merged)
+        {
+            Destroyed = destroyed;
+            Merged = merged;
+        }
+    }
+
+
+    public class CellCreatedEventArgs : EventArgs
+    {
+        public CellData Created { get; }
+        internal CellCreatedEventArgs(CellData created)
+        {
+            Created = created;
+        }
+    }
+
     public class Board : IEnumerable<Cell>
     {
         private const int sizeX = 4;
@@ -14,9 +64,13 @@ namespace Golden2048.Core
 
         private Cell[,] cellBoard = new Cell[sizeX, sizeY];
         private List<Cell> cellList = new List<Cell>();
-        private Random rnd = new Random();
+        private static Random rnd = new Random();
         private DropOutStack<List<int>> undo = new DropOutStack<List<int>>(3);
-        
+
+        public event EventHandler<CellMovedEventArgs> CellMoved;
+        public event EventHandler<CellCreatedEventArgs> CellCreated;
+        public event EventHandler<CellMergedEventArgs> CellMerged;
+
         public int MoveCount { get; private set; }
 
         public Board()
@@ -32,6 +86,11 @@ namespace Golden2048.Core
                     n++;
                 }
             }
+        }
+
+        public int GetValue(int x, int y)
+        {
+            return cellBoard[x, y].Value;
         }
 
         public void Reset()
@@ -142,42 +201,53 @@ namespace Golden2048.Core
             for (var n = 0; n < value.Count; n++) cellList[n].Value = value[n];
         }
 
+
         public void PullLeft()
         {
             SaveUndo();
             for (var y = 0; y < sizeY; y++)
             {
-                var values = new List<int>();
+                var values = new List<CellData>();
                 for (var x = 0; x < sizeX; x++)
                 {
-                    var value = cellBoard[x, y].Value;
-                    if (value > 0) values.Add(value);
+                    var cell = cellBoard[x, y];
+                    if (cell.Value > 0) values.Add(new CellData(cell));
                 }
 
                 TruncateList(values);
 
                 for (var x = 0; x < sizeX; x++)
                 {
+                    var to = cellBoard[x, y];
                     if (x < values.Count)
                     {
-                        cellBoard[x, y].Value = values[x];
+                        var from = values[0];
+                        to.Value = from.Value;
+                        if (from.X != x)
+                        {
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(to)));
+                        }
                     }
                     else
                     {
-                        cellBoard[x, y].Value = 0;
+                        to.Value = 0;
                     }
                 }
             }
         }
 
-        private static void TruncateList(List<int> values)
+        private void TruncateList(List<CellData> values)
         {
             for (var n = 0; n < values.Count - 1; n++)
             {
-                if (values[n] == values[n + 1])
+                var item = values[n];
+                var nextItem = values[n + 1];
+                if (item.Value == nextItem.Value)
                 {
-                    values[n] *= 2;
+                    var merged = new CellData(item.X, item.Y, item.Index, item.Value * 2);
+                    values[n] = merged;
                     values.RemoveAt(n + 1);
+                    CellMerged?.Invoke(this, new CellMergedEventArgs(nextItem, merged));
                 }
             }
         }
@@ -187,11 +257,11 @@ namespace Golden2048.Core
             SaveUndo();
             for (var y = 0; y < sizeY; y++)
             {
-                var values = new List<int>();
+                var values = new List<CellData>();
                 for (var x = maxX; x >= 0; x--)
                 {
-                    var value = cellBoard[x, y].Value;
-                    if (value > 0) values.Add(value);
+                    var cell = cellBoard[x, y];
+                    if (cell.Value > 0) values.Add(new CellData(cell));
                 }
 
                 TruncateList(values);
@@ -199,14 +269,20 @@ namespace Golden2048.Core
                 var n = 0;
                 for (var x = maxX; x >= 0; x--)
                 {
+                    var to = cellBoard[x, y];
                     if (n < values.Count)
                     {
-                        cellBoard[x, y].Value = values[n];
+                        var from = values[n];
                         n++;
+                        to.Value = from.Value;
+                        if (from.X != x)
+                        {
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(to)));
+                        }
                     }
                     else
                     {
-                        cellBoard[x, y].Value = 0;
+                        to.Value = 0;
                     }
                 }
             }
@@ -217,24 +293,30 @@ namespace Golden2048.Core
             SaveUndo();
             for (var x = 0; x < sizeX; x++)
             {
-                var values = new List<int>();
+                var values = new List<CellData>();
                 for (var y = 0; y < sizeY; y++)
                 {
-                    var value = cellBoard[x, y].Value;
-                    if (value > 0) values.Add(value);
+                    var cell = cellBoard[x, y];
+                    if (cell.Value > 0) values.Add(new CellData(cell));
                 }
 
                 TruncateList(values);
 
                 for (var y = 0; y < sizeY; y++)
                 {
+                    var to = cellBoard[x, y];
                     if (y < values.Count)
                     {
-                        cellBoard[x, y].Value = values[y];
+                        var from = values[y];
+                        to.Value = from.Value;
+                        if (from.Y != y)
+                        {
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(to)));
+                        }
                     }
                     else
                     {
-                        cellBoard[x, y].Value = 0;
+                        to.Value = 0;
                     }
                 }
             }
@@ -245,11 +327,11 @@ namespace Golden2048.Core
             SaveUndo();
             for (var x = 0; x < sizeX; x++)
             {
-                var values = new List<int>();
+                var values = new List<CellData>();
                 for (var y = maxY; y >= 0; y--)
                 {
-                    var value = cellBoard[x, y].Value;
-                    if (value > 0) values.Add(value);
+                    var cell = cellBoard[x, y];
+                    if(cell.Value > 0) values.Add(new CellData(cell));
                 }
 
                 TruncateList(values);
@@ -257,14 +339,20 @@ namespace Golden2048.Core
                 var n = 0;
                 for (var y = maxY; y >= 0; y--)
                 {
+                    var to = cellBoard[x, y];
                     if (n < values.Count)
                     {
-                        cellBoard[x, y].Value = values[n];
+                        var from = values[n];
                         n++;
+                        to.Value = from.Value;
+                        if (from.Y != y)
+                        {
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(to)));
+                        }
                     }
                     else
                     {
-                        cellBoard[x, y].Value = 0;
+                        to.Value = 0;
                     }
                 }
             }
@@ -272,7 +360,18 @@ namespace Golden2048.Core
 
         public void PutValue(int x, int y, int value)
         {
-            cellBoard[x, y].Value = value;
+            var target = cellBoard[x, y];
+            if (target.Value > 0)
+            {
+                var from = new CellData(target);
+                target.Value = value;
+                CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(target)));
+            }
+            else
+            {
+                target.Value = value;
+                CellCreated?.Invoke(this, new CellCreatedEventArgs(new CellData(target)));
+            }
             SaveUndo();
         }
 
@@ -285,16 +384,33 @@ namespace Golden2048.Core
             if (cells.Count == 0) return false;
 
             var index = rnd.Next(0, cells.Count);
+            int value;
             if (MoveCount < 20)
             {
-                cells[index].Value = 2;
+                value = 2;
             }
             else
             {
                 var dice = rnd.Next(0, 10);
-                cells[index].Value = dice == 0 ? 4 : 2;
+                value = dice == 0 ? 4 : 2;
             }
+            var cell = cells[index];
+            cell.Value = value;
+            CellCreated?.Invoke(this, new CellCreatedEventArgs(new CellData(cell)));
             return true;
+        }
+
+        public void Compare(params int[] values)
+        {
+            foreach (var cell in cellList)
+            {
+                var expected = values[cell.Index];
+                var actual = cell.Value;
+                if (expected != actual)
+                {
+                    throw new Exception($"Posição [{cell.X},{cell.Y}]: Era esperado {expected} mas foi encontrado {actual}");
+                }
+            }
         }
 
         public IEnumerator<Cell> GetEnumerator() => cellList.GetEnumerator();

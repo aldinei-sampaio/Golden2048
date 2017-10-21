@@ -1,0 +1,72 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Golden2048.Wpf.Resources.Storyboards"
+    >
+    
+    <Storyboard x:Key="Move00">
+        <StaticResourceExtension ResourceKey="animX0" />
+        <StaticResourceExtension ResourceKey="animY0" />
+    </Storyboard>
+    <Storyboard x:Key="Move01">
+        <StaticResourceExtension ResourceKey="animX1" />
+        <StaticResourceExtension ResourceKey="animY0" />
+    </Storyboard>
+    <Storyboard x:Key="Move02">
+        <StaticResourceExtension ResourceKey="animX2" />
+        <StaticResourceExtension ResourceKey="animY0" />
+    </Storyboard>
+    <Storyboard x:Key="Move03">
+        <StaticResourceExtension ResourceKey="animX3" />
+        <StaticResourceExtension ResourceKey="animY0" />
+    </Storyboard>
+    <Storyboard x:Key="Move04">
+        <StaticResourceExtension ResourceKey="animX0" />
+        <StaticResourceExtension ResourceKey="animY1" />
+    </Storyboard>
+    <Storyboard x:Key="Move05">
+        <StaticResourceExtension ResourceKey="animX1" />
+        <StaticResourceExtension ResourceKey="animY1" />
+    </Storyboard>
+    <Storyboard x:Key="Move06">
+        <StaticResourceExtension ResourceKey="animX2" />
+        <StaticResourceExtension ResourceKey="animY1" />
+    </Storyboard>
+    <Storyboard x:Key="Move07">
+        <StaticResourceExtension ResourceKey="animX3" />
+        <StaticResourceExtension ResourceKey="animY1" />
+    </Storyboard>
+    <Storyboard x:Key="Move08">
+        <StaticResourceExtension ResourceKey="animX0" />
+        <StaticResourceExtension ResourceKey="animY2" />
+    </Storyboard>
+    <Storyboard x:Key="Move09">
+        <StaticResourceExtension ResourceKey="animX1" />
+        <StaticResourceExtension ResourceKey="animY2" />
+    </Storyboard>
+    <Storyboard x:Key="Move10">
+        <StaticResourceExtension ResourceKey="animX2" />
+        <StaticResourceExtension ResourceKey="animY2" />
+    </Storyboard>
+    <Storyboard x:Key="Move11">
+        <StaticResourceExtension ResourceKey="animX3" />
+        <StaticResourceExtension ResourceKey="animY2" />
+    </Storyboard>
+    <Storyboard x:Key="Move12">
+        <StaticResourceExtension ResourceKey="animX0" />
+        <StaticResourceExtension ResourceKey="animY3" />
+    </Storyboard>
+    <Storyboard x:Key="Move13">
+        <StaticResourceExtension ResourceKey="animX1" />
+        <StaticResourceExtension ResourceKey="animY3" />
+    </Storyboard>
+    <Storyboard x:Key="Move14">
+        <StaticResourceExtension ResourceKey="animX2" />
+        <StaticResourceExtension ResourceKey="animY3" />
+    </Storyboard>
+    <Storyboard x:Key="Move15">
+        <StaticResourceExtension ResourceKey="animX3" />
+        <StaticResourceExtension ResourceKey="animY3" />
+    </Storyboard>
+
+</ResourceDictionary>

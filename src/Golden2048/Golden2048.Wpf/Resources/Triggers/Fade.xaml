@@ -1,0 +1,93 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Golden2048.Wpf.Resources.Triggers"
+    >
+
+    <Style TargetType="Image">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Transition}" Value="200">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade00}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="201">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade01}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="202">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade02}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="203">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade03}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="204">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade04}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="205">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade05}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="206">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade06}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="207">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade07}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="208">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade08}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="209">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade09}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="210">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade10}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="211">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade11}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="212">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade12}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="213">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade13}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="214">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade14}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Transition}" Value="215">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Fade15}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+</ResourceDictionary>

@@ -1,0 +1,53 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Golden2048.Wpf.Resources"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    >
+
+    <sys:TimeSpan x:Key="MoveBeginTime">0:0:0.05</sys:TimeSpan>
+    <Duration x:Key="MoveDuration">0:0:0.50</Duration>
+
+    <DoubleAnimationUsingKeyFrames x:Key="animStartX0" Duration="0" Storyboard.TargetProperty="(Canvas.Left)">
+        <DiscreteDoubleKeyFrame Value="0" />
+    </DoubleAnimationUsingKeyFrames>
+    <DoubleAnimationUsingKeyFrames x:Key="animStartX1" Duration="0" Storyboard.TargetProperty="(Canvas.Left)">
+        <DiscreteDoubleKeyFrame Value="100" />
+    </DoubleAnimationUsingKeyFrames>
+    <DoubleAnimationUsingKeyFrames x:Key="animStartX2" Duration="0" Storyboard.TargetProperty="(Canvas.Left)">
+        <DiscreteDoubleKeyFrame Value="200" />
+    </DoubleAnimationUsingKeyFrames>
+    <DoubleAnimationUsingKeyFrames x:Key="animStartX3" Duration="0" Storyboard.TargetProperty="(Canvas.Left)">
+        <DiscreteDoubleKeyFrame Value="300" />
+    </DoubleAnimationUsingKeyFrames>
+    <DoubleAnimationUsingKeyFrames x:Key="animStartY0" Duration="0" Storyboard.TargetProperty="(Canvas.Top)">
+        <DiscreteDoubleKeyFrame Value="0" />
+    </DoubleAnimationUsingKeyFrames>
+    <DoubleAnimationUsingKeyFrames x:Key="animStartY1" Duration="0" Storyboard.TargetProperty="(Canvas.Top)">
+        <DiscreteDoubleKeyFrame Value="100" />
+    </DoubleAnimationUsingKeyFrames>
+    <DoubleAnimationUsingKeyFrames x:Key="animStartY2" Duration="0" Storyboard.TargetProperty="(Canvas.Top)">
+        <DiscreteDoubleKeyFrame Value="200" />
+    </DoubleAnimationUsingKeyFrames>
+    <DoubleAnimationUsingKeyFrames x:Key="animStartY3" Duration="0" Storyboard.TargetProperty="(Canvas.Top)">
+        <DiscreteDoubleKeyFrame Value="300" />
+    </DoubleAnimationUsingKeyFrames>
+
+    <DoubleAnimation x:Key="animX0" To="0" Duration="{StaticResource MoveDuration}" Storyboard.TargetProperty="(Canvas.Left)" />
+    <DoubleAnimation x:Key="animX1" To="100" Duration="{StaticResource MoveDuration}" Storyboard.TargetProperty="(Canvas.Left)" />
+    <DoubleAnimation x:Key="animX2" To="200" Duration="{StaticResource MoveDuration}" Storyboard.TargetProperty="(Canvas.Left)" />
+    <DoubleAnimation x:Key="animX3" To="300" Duration="{StaticResource MoveDuration}" Storyboard.TargetProperty="(Canvas.Left)" />
+    <DoubleAnimation x:Key="animY0" To="0" Duration="{StaticResource MoveDuration}" Storyboard.TargetProperty="(Canvas.Top)" />
+    <DoubleAnimation x:Key="animY1" To="100" Duration="{StaticResource MoveDuration}" Storyboard.TargetProperty="(Canvas.Top)" />
+    <DoubleAnimation x:Key="animY2" To="200" Duration="{StaticResource MoveDuration}" Storyboard.TargetProperty="(Canvas.Top)" />
+    <DoubleAnimation x:Key="animY3" To="300" Duration="{StaticResource MoveDuration}" Storyboard.TargetProperty="(Canvas.Top)" />
+
+    <DoubleAnimation x:Key="animFade" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="{StaticResource MoveDuration}" />
+    <DoubleAnimation x:Key="animUnfade" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="{StaticResource MoveDuration}" />
+    <ObjectAnimationUsingKeyFrames x:Key="animShow" Duration="0" Storyboard.TargetProperty="Visibility">
+        <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}"/>
+    </ObjectAnimationUsingKeyFrames>
+    <ObjectAnimationUsingKeyFrames x:Key="animHide" Duration="0" BeginTime="0:0:0.25" Storyboard.TargetProperty="Visibility">
+        <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}"/>
+    </ObjectAnimationUsingKeyFrames>
+</ResourceDictionary>
