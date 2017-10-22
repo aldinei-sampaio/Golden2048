@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="BoardTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulateMatch.cs" />
+    <Compile Include="SimulateMatchTests.cs" />
     <Compile Include="DropoutStackTests.cs" />
   </ItemGroup>
   <ItemGroup>

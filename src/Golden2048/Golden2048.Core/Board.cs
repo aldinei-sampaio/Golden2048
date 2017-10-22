@@ -23,36 +23,25 @@ namespace Golden2048.Core
         }
     }
 
+    internal struct MergedInfo
+    {
+        public CellData Data { get; }
+        public CellData? Merged { get; }
+        public MergedInfo(CellData data, CellData? merged) => (Data, Merged) = (data, merged);
+    }
+
     public class CellMovedEventArgs : EventArgs
     {
         public CellData From { get; }
         public CellData To { get; }
-        internal CellMovedEventArgs(CellData from, CellData to)
-        {
-            From = from;
-            To = to;
-        }
+        public CellData? Merged { get; }
+        internal CellMovedEventArgs(CellData from, CellData to, CellData? merged) => (From, To, Merged) = (from, to, merged);
     }
-
-    public class CellMergedEventArgs : EventArgs
-    {
-        public CellData Destroyed { get; }
-        public CellData Merged { get; }
-        public CellMergedEventArgs(CellData destroyed, CellData merged)
-        {
-            Destroyed = destroyed;
-            Merged = merged;
-        }
-    }
-
 
     public class CellCreatedEventArgs : EventArgs
     {
         public CellData Created { get; }
-        internal CellCreatedEventArgs(CellData created)
-        {
-            Created = created;
-        }
+        internal CellCreatedEventArgs(CellData created) => Created = created;
     }
 
     public class Board : IEnumerable<Cell>
@@ -67,9 +56,8 @@ namespace Golden2048.Core
         private static Random rnd = new Random();
         private DropOutStack<List<int>> undo = new DropOutStack<List<int>>(3);
 
-        public event EventHandler<CellMovedEventArgs> CellMoved;
         public event EventHandler<CellCreatedEventArgs> CellCreated;
-        public event EventHandler<CellMergedEventArgs> CellMerged;
+        public event EventHandler<CellMovedEventArgs> CellMoved;
 
         public int MoveCount { get; private set; }
 
@@ -148,7 +136,7 @@ namespace Golden2048.Core
             return false;
         }
 
-        public bool CanPullTop()
+        public bool CanPullUp()
         {
             for (var x = 0; x < sizeX; x++)
             {
@@ -168,7 +156,7 @@ namespace Golden2048.Core
             return false;
         }
 
-        public bool CanPullBottom()
+        public bool CanPullDown()
         {
             for (var x = 0; x < sizeX; x++)
             {
@@ -214,18 +202,22 @@ namespace Golden2048.Core
                     if (cell.Value > 0) values.Add(new CellData(cell));
                 }
 
-                TruncateList(values);
+                var merged = TruncateList(values);
 
                 for (var x = 0; x < sizeX; x++)
                 {
                     var to = cellBoard[x, y];
-                    if (x < values.Count)
+                    if (x < merged.Count)
                     {
-                        var from = values[0];
-                        to.Value = from.Value;
-                        if (from.X != x)
+                        var from = merged[x];
+                        to.Value = from.Data.Value;
+                        if (from.Merged.HasValue)
                         {
-                            CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(to)));
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from.Data, new CellData(to), from.Merged.Value));
+                        }
+                        else if (from.Data.X != x)
+                        {
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from.Data, new CellData(to), null));
                         }
                     }
                     else
@@ -236,9 +228,11 @@ namespace Golden2048.Core
             }
         }
 
-        private void TruncateList(List<CellData> values)
+        private List<MergedInfo> TruncateList(List<CellData> values)
         {
-            for (var n = 0; n < values.Count - 1; n++)
+            var list = new List<MergedInfo>();
+            var n = 0;
+            while (n < values.Count - 1)
             {
                 var item = values[n];
                 var nextItem = values[n + 1];
@@ -247,9 +241,16 @@ namespace Golden2048.Core
                     var merged = new CellData(item.X, item.Y, item.Index, item.Value * 2);
                     values[n] = merged;
                     values.RemoveAt(n + 1);
-                    CellMerged?.Invoke(this, new CellMergedEventArgs(nextItem, merged));
+                    list.Add(new MergedInfo(merged, nextItem));
                 }
+                else
+                {
+                    list.Add(new MergedInfo(item, null));
+                }
+                n++;
             }
+            if (n < values.Count) list.Add(new MergedInfo(values[n], null));
+            return list;
         }
 
         public void PullRight()
@@ -264,20 +265,24 @@ namespace Golden2048.Core
                     if (cell.Value > 0) values.Add(new CellData(cell));
                 }
 
-                TruncateList(values);
+                var merged = TruncateList(values);
 
                 var n = 0;
                 for (var x = maxX; x >= 0; x--)
                 {
                     var to = cellBoard[x, y];
-                    if (n < values.Count)
+                    if (n < merged.Count)
                     {
-                        var from = values[n];
+                        var from = merged[n];
                         n++;
-                        to.Value = from.Value;
-                        if (from.X != x)
+                        to.Value = from.Data.Value;
+                        if (from.Merged.HasValue)
                         {
-                            CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(to)));
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from.Data, new CellData(to), from.Merged.Value));
+                        }
+                        else if (from.Data.X != x)
+                        {
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from.Data, new CellData(to), null));
                         }
                     }
                     else
@@ -288,7 +293,7 @@ namespace Golden2048.Core
             }
         }
 
-        public void PullTop()
+        public void PullUp()
         {
             SaveUndo();
             for (var x = 0; x < sizeX; x++)
@@ -300,18 +305,22 @@ namespace Golden2048.Core
                     if (cell.Value > 0) values.Add(new CellData(cell));
                 }
 
-                TruncateList(values);
+                var merged = TruncateList(values);
 
                 for (var y = 0; y < sizeY; y++)
                 {
                     var to = cellBoard[x, y];
-                    if (y < values.Count)
+                    if (y < merged.Count)
                     {
-                        var from = values[y];
-                        to.Value = from.Value;
-                        if (from.Y != y)
+                        var from = merged[y];
+                        to.Value = from.Data.Value;
+                        if (from.Merged.HasValue)
                         {
-                            CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(to)));
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from.Data, new CellData(to), from.Merged.Value));
+                        }
+                        else if (from.Data.Y != y)
+                        {
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from.Data, new CellData(to), null));
                         }
                     }
                     else
@@ -322,7 +331,7 @@ namespace Golden2048.Core
             }
         }
 
-        public void PullBottom()
+        public void PullDown()
         {
             SaveUndo();
             for (var x = 0; x < sizeX; x++)
@@ -334,20 +343,24 @@ namespace Golden2048.Core
                     if(cell.Value > 0) values.Add(new CellData(cell));
                 }
 
-                TruncateList(values);
+                var merged = TruncateList(values);
 
                 var n = 0;
                 for (var y = maxY; y >= 0; y--)
                 {
                     var to = cellBoard[x, y];
-                    if (n < values.Count)
+                    if (n < merged.Count)
                     {
-                        var from = values[n];
+                        var from = merged[n];
                         n++;
-                        to.Value = from.Value;
-                        if (from.Y != y)
+                        to.Value = from.Data.Value;
+                        if (from.Merged.HasValue)
                         {
-                            CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(to)));
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from.Data, new CellData(to), from.Merged.Value));
+                        }
+                        else if (from.Data.Y != y)
+                        {
+                            CellMoved?.Invoke(this, new CellMovedEventArgs(from.Data, new CellData(to), null));
                         }
                     }
                     else
@@ -365,7 +378,7 @@ namespace Golden2048.Core
             {
                 var from = new CellData(target);
                 target.Value = value;
-                CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(target)));
+                CellMoved?.Invoke(this, new CellMovedEventArgs(from, new CellData(target), null));
             }
             else
             {

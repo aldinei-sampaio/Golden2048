@@ -56,9 +56,9 @@ namespace Golden2048.UnitTests
             );
 
             Assert.IsTrue(board.CanPullLeft());
-            Assert.IsTrue(board.CanPullTop());
+            Assert.IsTrue(board.CanPullUp());
             Assert.IsTrue(board.CanPullRight());
-            Assert.IsTrue(board.CanPullBottom());
+            Assert.IsTrue(board.CanPullDown());
 
             board.PullLeft();
             board.Compare(
@@ -70,8 +70,8 @@ namespace Golden2048.UnitTests
 
             Assert.IsFalse(board.CanPullLeft());
             Assert.IsTrue(board.CanPullRight());
-            Assert.IsFalse(board.CanPullTop());
-            Assert.IsFalse(board.CanPullBottom());
+            Assert.IsFalse(board.CanPullUp());
+            Assert.IsFalse(board.CanPullDown());
         }
 
         [TestMethod]
@@ -96,12 +96,12 @@ namespace Golden2048.UnitTests
             board.PullRight();
             board.Compare(values);
 
-            Assert.IsFalse(board.CanPullTop());
-            board.PullTop();
+            Assert.IsFalse(board.CanPullUp());
+            board.PullUp();
             board.Compare(values);
 
-            Assert.IsFalse(board.CanPullBottom());
-            board.PullBottom();
+            Assert.IsFalse(board.CanPullDown());
+            board.PullDown();
             board.Compare(values);
         }
 
@@ -127,12 +127,12 @@ namespace Golden2048.UnitTests
             board.PullRight();
             board.Compare(values);
 
-            Assert.IsFalse(board.CanPullTop());
-            board.PullTop();
+            Assert.IsFalse(board.CanPullUp());
+            board.PullUp();
             board.Compare(values);
 
-            Assert.IsFalse(board.CanPullBottom());
-            board.PullBottom();
+            Assert.IsFalse(board.CanPullDown());
+            board.PullDown();
             board.Compare(values);
         }
 
@@ -165,9 +165,9 @@ namespace Golden2048.UnitTests
             );
 
             Assert.IsTrue(board.CanPullLeft());
-            Assert.IsTrue(board.CanPullTop());
+            Assert.IsTrue(board.CanPullUp());
             Assert.IsTrue(board.CanPullRight());
-            Assert.IsTrue(board.CanPullBottom());
+            Assert.IsTrue(board.CanPullDown());
 
             board.PullRight();
             board.Compare(
@@ -178,9 +178,9 @@ namespace Golden2048.UnitTests
             );
 
             Assert.IsTrue(board.CanPullLeft());
-            Assert.IsFalse(board.CanPullTop());
+            Assert.IsFalse(board.CanPullUp());
             Assert.IsFalse(board.CanPullRight());
-            Assert.IsFalse(board.CanPullBottom());
+            Assert.IsFalse(board.CanPullDown());
 
         }
 
@@ -195,8 +195,8 @@ namespace Golden2048.UnitTests
                 02, 01, 02, 01
             );
 
-            Assert.IsTrue(board.CanPullTop());
-            board.PullTop();
+            Assert.IsTrue(board.CanPullUp());
+            board.PullUp();
 
             board.Compare(
                 01, 02, 02, 04,
@@ -213,11 +213,11 @@ namespace Golden2048.UnitTests
             );
 
             Assert.IsTrue(board.CanPullLeft());
-            Assert.IsTrue(board.CanPullTop());
+            Assert.IsTrue(board.CanPullUp());
             Assert.IsTrue(board.CanPullRight());
-            Assert.IsTrue(board.CanPullBottom());
+            Assert.IsTrue(board.CanPullDown());
 
-            board.PullTop();
+            board.PullUp();
             board.Compare(
                 1, 2, 4, 8,
                 0, 0, 0, 0,
@@ -226,9 +226,9 @@ namespace Golden2048.UnitTests
             );
 
             Assert.IsFalse(board.CanPullLeft());
-            Assert.IsFalse(board.CanPullTop());
+            Assert.IsFalse(board.CanPullUp());
             Assert.IsFalse(board.CanPullRight());
-            Assert.IsTrue(board.CanPullBottom());
+            Assert.IsTrue(board.CanPullDown());
         }
 
         [TestMethod]
@@ -242,8 +242,8 @@ namespace Golden2048.UnitTests
                 02, 01, 02, 01
             );
 
-            Assert.IsTrue(board.CanPullBottom());
-            board.PullBottom();
+            Assert.IsTrue(board.CanPullDown());
+            board.PullDown();
 
             board.Compare(
                 00, 00, 00, 00,
@@ -260,11 +260,11 @@ namespace Golden2048.UnitTests
             );
 
             Assert.IsTrue(board.CanPullLeft());
-            Assert.IsTrue(board.CanPullTop());
+            Assert.IsTrue(board.CanPullUp());
             Assert.IsTrue(board.CanPullRight());
-            Assert.IsTrue(board.CanPullBottom());
+            Assert.IsTrue(board.CanPullDown());
 
-            board.PullBottom();
+            board.PullDown();
             board.Compare(
                 0, 0, 0, 0,
                 0, 0, 0, 0,
@@ -273,9 +273,9 @@ namespace Golden2048.UnitTests
             );
 
             Assert.IsFalse(board.CanPullLeft());
-            Assert.IsTrue(board.CanPullTop());
+            Assert.IsTrue(board.CanPullUp());
             Assert.IsFalse(board.CanPullRight());
-            Assert.IsFalse(board.CanPullBottom());
+            Assert.IsFalse(board.CanPullDown());
         }
 
         [TestMethod]
@@ -289,9 +289,9 @@ namespace Golden2048.UnitTests
                 0, 2, 0, 0
             );
             Assert.IsTrue(board.CanPullLeft());
-            Assert.IsTrue(board.CanPullTop());
+            Assert.IsTrue(board.CanPullUp());
             Assert.IsTrue(board.CanPullRight());
-            Assert.IsTrue(board.CanPullBottom());
+            Assert.IsTrue(board.CanPullDown());
         }
     }
 }
