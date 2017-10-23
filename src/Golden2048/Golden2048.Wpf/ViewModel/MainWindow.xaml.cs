@@ -20,6 +20,9 @@ namespace Golden2048.Wpf
 
         private Board board;
         private List<CellController> items;
+        private StoryboardController controller = new StoryboardController();
+        private DateTime startTime;
+        private System.Timers.Timer timer;
 
         protected override void OnInitialized(EventArgs e)
         {
@@ -43,6 +46,16 @@ namespace Golden2048.Wpf
 
         private void InitializeBoard()
         {
+            startTime = DateTime.Now;
+            timer?.Dispose();
+            timer = new System.Timers.Timer(1000);
+            timer.Elapsed += (sender, e) =>
+            {
+                var elapsed = DateTime.Now - startTime;
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => Time.Text = elapsed.ToString(@"hh\:mm\:ss")));
+            };
+            timer.Start();
+
             items = new List<CellController>();
             board = new Board();
 
@@ -51,7 +64,7 @@ namespace Golden2048.Wpf
                 var img = new Image();
                 img.Stretch = System.Windows.Media.Stretch.Fill;
                 this.BoardSpace.Children.Add(img);
-                var cell = new CellController(img);
+                var cell = new CellController(controller, img);
                 items.Add(cell);
                 cell.Value = e.Created.Value;
                 cell.Left = e.Created.X;
@@ -82,6 +95,7 @@ namespace Golden2048.Wpf
             };
 
             board.PutRandomValue();
+            Refresh();
         }
 
         public string GetDebugMessage()
@@ -91,36 +105,76 @@ namespace Golden2048.Wpf
 
         private void GoLeft()
         {
+            if (controller.RunningCount > 0) return;
             if (!board.CanPullLeft()) return;
             board.PullLeft();
             board.PutRandomValue();
+            Refresh();
         }
 
         private void GoUp()
         {
+            if (controller.RunningCount > 0) return;
             if (!board.CanPullUp()) return;
             board.PullUp();
             board.PutRandomValue();
+            Refresh();
         }
 
         private void GoRight()
         {
+            if (controller.RunningCount > 0) return;
             if (!board.CanPullRight()) return;
             board.PullRight();
             board.PutRandomValue();
+            Refresh();
         }
 
         private void GoDown()
         {
+            if (controller.RunningCount > 0) return;
             if (!board.CanPullDown()) return;
             board.PullDown();
             board.PutRandomValue();
+            Refresh();
         }
 
         private void Reset()
         {
             this.BoardSpace.Children.Clear();
             InitializeBoard();
+        }
+
+        private void Restart_Click(object sender, RoutedEventArgs e) => Reset();
+        private void Up_Click(object sender, RoutedEventArgs e) => GoUp();
+        private void Left_Click(object sender, RoutedEventArgs e) => GoLeft();
+        private void Down_Click(object sender, RoutedEventArgs e) => GoDown();
+        private void Right_Click(object sender, RoutedEventArgs e) => GoRight();
+
+        private void Refresh()
+        {
+            Up.IsEnabled = board.CanPullUp();
+            Left.IsEnabled = board.CanPullLeft();
+            Down.IsEnabled = board.CanPullDown();
+            Right.IsEnabled = board.CanPullRight();
+            Points.Text = board.Points.ToString("N0");
+
+            if (board.Combo > 1)
+            {
+                Combo.Text = $"Combo {board.Combo}!";
+            }
+            else
+            {
+                Combo.Text = string.Empty;
+            }
+        }
+
+        private void Boom_Click(object sender, RoutedEventArgs e) => GoBoom();
+
+        private void GoBoom()
+        {
+            var fireworks = new Fireworks(150.0);
+            i.ItemsSource = fireworks.Items;
         }
     }
 }

@@ -11,9 +11,10 @@ namespace Golden2048.Wpf
 {
     public class CellController
     {
+        private readonly StoryboardController controller;
         public Image Component { get; }
 
-        public CellController(Image img) => this.Component = img;
+        public CellController(StoryboardController controller, Image img) => (this.Component, this.controller) = (img, controller);
 
         private const int scale = 100;
 
@@ -59,20 +60,6 @@ namespace Golden2048.Wpf
                 _isVisible = value;
                 Component.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
-        }
-
-        public void MoveTop(int value)
-        {
-            var animation = new DoubleAnimation(Top * scale, value * scale, TimeSpan.FromMilliseconds(200));
-            Component.BeginAnimation(Canvas.TopProperty, animation);
-            Top = value;
-        }
-
-        public void MoveLeft(int value)
-        {
-            var animation = new DoubleAnimation(Left * scale, value * scale, TimeSpan.FromMilliseconds(200));
-            Component.BeginAnimation(Canvas.LeftProperty, animation);
-            Left = value;
         }
 
         public void Show()
@@ -128,8 +115,8 @@ namespace Golden2048.Wpf
 
         public void Move(int x, int y)
         {
-            if (x != Left) MoveLeft(x);
-            else if (y != Top) MoveTop(y);
+            var sb = CreateMoveStoryboard(x, y);
+            controller.Begin(sb);
         }
 
         public void MoveAndFlipHorizontally(int x, int y, int value)
@@ -176,7 +163,7 @@ namespace Golden2048.Wpf
             Storyboard.SetTargetProperty(animLeft2, new PropertyPath(Canvas.LeftProperty));
             sb.Children.Add(animLeft2);
 
-            sb.Begin();
+            controller.Begin(sb);
         }
 
         public void MoveAndFlipVertically(int x, int y, int value)
@@ -223,7 +210,7 @@ namespace Golden2048.Wpf
             Storyboard.SetTargetProperty(animLeft2, new PropertyPath(Canvas.TopProperty));
             sb.Children.Add(animLeft2);
 
-            sb.Begin();
+            controller.Begin(sb);
         }
 
     }

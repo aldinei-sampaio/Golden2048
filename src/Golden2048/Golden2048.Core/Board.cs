@@ -60,6 +60,11 @@ namespace Golden2048.Core
         public event EventHandler<CellMovedEventArgs> CellMoved;
 
         public int MoveCount { get; private set; }
+        public int Points { get; private set; }
+        public int Combo { get; private set; }
+
+        private int pullCombo;
+        private int pullPoints;
 
         public Board()
         {
@@ -85,6 +90,8 @@ namespace Golden2048.Core
         {
             cellList.ForEach(i => i.Value = 0);
             undo.Clear();
+            Combo = 0;
+            Points = 0;
         }
 
         public void Initialize(params int[] values)
@@ -180,6 +187,8 @@ namespace Golden2048.Core
         {
             var values = cellList.Select(i => i.Value).ToList();
             undo.Push(values);
+            pullCombo = 0;
+            pullPoints = 0;
         }
 
         public void Undo()
@@ -226,6 +235,7 @@ namespace Golden2048.Core
                     }
                 }
             }
+            CalculatePoints();
         }
 
         private List<MergedInfo> TruncateList(List<CellData> values)
@@ -238,7 +248,10 @@ namespace Golden2048.Core
                 var nextItem = values[n + 1];
                 if (item.Value == nextItem.Value)
                 {
-                    var merged = new CellData(item.X, item.Y, item.Index, item.Value * 2);
+                    var value = item.Value * 2;
+                    pullCombo++;
+                    pullPoints += value;
+                    var merged = new CellData(item.X, item.Y, item.Index, value);
                     values[n] = merged;
                     values.RemoveAt(n + 1);
                     list.Add(new MergedInfo(merged, nextItem));
@@ -251,6 +264,14 @@ namespace Golden2048.Core
             }
             if (n < values.Count) list.Add(new MergedInfo(values[n], null));
             return list;
+        }
+
+        private void CalculatePoints()
+        {
+            Combo = pullCombo;
+            Points += pullPoints * pullCombo;
+            pullCombo = 0;
+            pullPoints = 0;
         }
 
         public void PullRight()
@@ -291,6 +312,7 @@ namespace Golden2048.Core
                     }
                 }
             }
+            CalculatePoints();
         }
 
         public void PullUp()
@@ -329,6 +351,7 @@ namespace Golden2048.Core
                     }
                 }
             }
+            CalculatePoints();
         }
 
         public void PullDown()
@@ -369,6 +392,7 @@ namespace Golden2048.Core
                     }
                 }
             }
+            CalculatePoints();
         }
 
         public void PutValue(int x, int y, int value)

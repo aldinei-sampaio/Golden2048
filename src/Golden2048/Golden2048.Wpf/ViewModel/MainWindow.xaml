@@ -6,26 +6,132 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Golden2048.Wpf"
     mc:Ignorable="d"
-    Title="Golden 2048" Height="500" Width="500"
+    Title="Golden 2048" Height="464" Width="620"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
     >
 
-    <Grid>
-        <Canvas Name="BoardSpace">
-            <Canvas.Resources>
-                <Style TargetType="Image">
-                    <Setter Property="Width" Value="100" />
-                    <Setter Property="Height" Value="100" />
-                    <Setter Property="Canvas.Left" Value="0" />
-                    <Setter Property="Canvas.Top" Value="0" />
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform CenterX="50" CenterY="50" />
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Canvas.Resources>
-            <TextBlock Name="msg" Canvas.Top="400" />
-        </Canvas>
-    </Grid>
+    <Border Background="#FFFFF2BA" BorderBrush="Orange" BorderThickness="1">
+        <Grid>
+            <Border Name="BoardPlace" Width="410" Height="410" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" BorderBrush="Orange" BorderThickness="1" Background="Gold">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5"/>
+                </Border.Effect>
+                <Border Width="402" Height="402" BorderBrush="Orange" BorderThickness="1" Background="White">
+                    <Grid>
+                        <Canvas Name="BoardSpace">
+                            <Canvas.Resources>
+                                <Style TargetType="Image">
+                                    <Setter Property="Width" Value="100" />
+                                    <Setter Property="Height" Value="100" />
+                                    <Setter Property="Canvas.Left" Value="0" />
+                                    <Setter Property="Canvas.Top" Value="0" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform CenterX="50" CenterY="50" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Canvas.Resources>
+                        </Canvas>
+                        <Rectangle Fill="LightGray" Height="1" HorizontalAlignment="Stretch" Margin="0,100,0,0" VerticalAlignment="Top" />
+                        <Rectangle Fill="LightGray" Height="1" HorizontalAlignment="Stretch" Margin="0,200,0,0" VerticalAlignment="Top" />
+                        <Rectangle Fill="LightGray" Height="1" HorizontalAlignment="Stretch" Margin="0,300,0,0" VerticalAlignment="Top" />
+                        <Rectangle Fill="LightGray" Width="1" HorizontalAlignment="Left" Margin="100,0,0,0" VerticalAlignment="Stretch" />
+                        <Rectangle Fill="LightGray" Width="1" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Stretch" />
+                        <Rectangle Fill="LightGray" Width="1" HorizontalAlignment="Left" Margin="300,0,0,0" VerticalAlignment="Stretch" />
+                    </Grid>
+                </Border>
+            </Border>
+
+            <Grid Name="Controls" Width="150" Height="410" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="15" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Pontuação:" HorizontalAlignment="Right" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Name="Points" Text="0" Margin="10,0,0,0" FontWeight="Bold" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Tempo:" HorizontalAlignment="Right" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Name="Time" Text="00:00:00" Margin="10,0,0,0" FontWeight="Bold" />
+            
+                <local:ImageButton 
+                    Grid.Row="2" 
+                    Grid.ColumnSpan="2" 
+                    x:Name="Restart" 
+                    Height="48"
+                    Width="150"
+                    NormalImage="..\Images\restart.normal.png" 
+                    HoverImage="..\Images\restart.hover.png"
+                    PressedImage="..\Images\restart.pressed.png"
+                    Margin="0,10,0,0"
+                    Click="Restart_Click"
+                    />
+
+                <TextBlock Name="Combo" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,60,0,0" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20" Foreground="OrangeRed" />
+
+                <Grid Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="100" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <Grid.Resources>
+                        <Style TargetType="local:ImageButton">
+                            <Setter Property="Width" Value="48" />
+                            <Setter Property="Height" Value="48" />
+                            <Setter Property="NormalImage" Value="..\Images\right.normal.png" />
+                            <Setter Property="HoverImage" Value="..\Images\right.hover.png" />
+                            <Setter Property="PressedImage" Value="..\Images\right.pressed.png" />
+                            <Setter Property="DisabledImage" Value="..\Images\right.disabled.png" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <local:ImageButton x:Name="Up" ImageRotation="270" Grid.Row="0" Grid.Column="1" Click="Up_Click" />
+                    <local:ImageButton x:Name="Left" ImageRotation="180" Grid.Row="1" Grid.Column="0" Click="Left_Click" />
+                    <local:ImageButton x:Name="Down" ImageRotation="90" Grid.Row="1" Grid.Column="1" Click="Down_Click"/>
+                    <local:ImageButton x:Name="Right" ImageRotation="0" Grid.Row="1" Grid.Column="2" Click="Right_Click" />
+                </Grid>
+
+            </Grid>
+
+            <Menu Name="i" Width="400" Height="400">
+                <Menu.ItemTemplate>
+                    <DataTemplate>
+                        <Ellipse Width="2" Height="2" Fill="#000" Opacity="{Binding O}">
+                            <Ellipse.RenderTransform>
+                                <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                    </DataTemplate>
+                </Menu.ItemTemplate>
+                <Menu.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter/>
+                    </ControlTemplate>
+                </Menu.Template>
+                <Menu.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas/>
+                    </ItemsPanelTemplate>
+                </Menu.ItemsPanel>
+            </Menu>
+        </Grid>
+    </Border>
 </Window>
