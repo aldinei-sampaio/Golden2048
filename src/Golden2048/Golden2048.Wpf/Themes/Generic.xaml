@@ -4,8 +4,11 @@
     xmlns:local="clr-namespace:Golden2048.Wpf">
 
     <SolidColorBrush x:Key="TextBrush" Color="Black" />
-    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#FF999999" />
+    <SolidColorBrush x:Key="DisabledTextBrush" Color="#FFAFAFAF" />
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#FFE4E4E4" />
     <SolidColorBrush x:Key="ButtonBorderBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="ButtonBackgroundBrushHover" Color="#FFAFAFAF" />
+    <SolidColorBrush x:Key="ButtonBackgroundBrushPressed" Color="#FF808080" />
 
     <ControlTemplate x:Key="ImageButtonTemplate" TargetType="{x:Type local:ImageButton}">
         <Grid x:Name="Grid">

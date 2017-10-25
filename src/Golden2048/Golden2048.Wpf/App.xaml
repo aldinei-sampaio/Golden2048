@@ -6,9 +6,48 @@
     StartupUri="ViewModel\MainWindow.xaml"
     >
     <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+
+        <SolidColorBrush x:Key="TextBrush" Color="Black" />
+        <SolidColorBrush x:Key="DisabledTextBrush" Color="#FFAFAFAF" />
+        <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#FFE4E4E4" />
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="#FF333333" />
+        <SolidColorBrush x:Key="ButtonBackgroundBrushHover" Color="#FFAFAFAF" />
+        <SolidColorBrush x:Key="ButtonBackgroundBrushPressed" Color="#FF808080" />
+
+        <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
+            <Border 
+                x:Name="Border" 
+                BorderBrush="{StaticResource ButtonBorderBrush}" 
+                BorderThickness="2" 
+                CornerRadius="4" 
+                Background="{StaticResource ButtonBackgroundBrush}"
+                TextBlock.Foreground="{StaticResource TextBrush}"
+                >
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" 
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonBackgroundBrushHover}" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonBackgroundBrushPressed}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter TargetName="Border" Property="TextBlock.Foreground" Value="{StaticResource DisabledTextBrush}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style TargetType="Button" BasedOn="{x:Null}">
+            <Setter Property="Padding" Value="20,2,20,3" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <!--<Setter Property="FontWeight" Value="Bold" />-->
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Template" Value="{StaticResource ButtonTemplate}" />
+        </Style>
+
     </Application.Resources>
 </Application>

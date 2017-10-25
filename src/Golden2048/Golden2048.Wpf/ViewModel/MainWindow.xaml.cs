@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Golden2048.Wpf
 {
@@ -176,5 +178,20 @@ namespace Golden2048.Wpf
             var fireworks = new Fireworks(150.0);
             i.ItemsSource = fireworks.Items;
         }
+
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            var leftAnimation = new DoubleAnimation(0, Width, TimeSpan.FromMilliseconds(500));
+            leftAnimation.Completed += (s1, e1) => grdWelcome.Visibility = Visibility.Collapsed;
+            grdWelcomeTransform.BeginAnimation(TranslateTransform.XProperty, leftAnimation);
+        }
+
+        private void Instructions_Click(object sender, RoutedEventArgs e)
+        {
+            grdWelcome.Visibility = Visibility.Visible;
+            var leftAnimation = new DoubleAnimation(Width, 0, TimeSpan.FromMilliseconds(500));
+            grdWelcomeTransform.BeginAnimation(TranslateTransform.XProperty, leftAnimation);
+        }
+
     }
 }
